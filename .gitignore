@@ -5,3 +5,5 @@
 *.db
 recess/temp/compiled/*
 recess/temp/*.*
+.svn
+/apps/
