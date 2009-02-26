@@ -103,6 +103,11 @@ class RecessToolsAppsController extends Controller {
 		$this->messages[] = $this->tryGeneratingFile('Footer Template', $this->application->codeTemplatesDir . 'footer.template.php', $appDir . '/views/common/footer.php', $appReplacements);
 		$this->messages[] = $this->tryCreatingDirectory($appDir . '/views/home', 'home views');
 		$this->messages[] = $this->tryGeneratingFile('Home Template', $this->application->codeTemplatesDir . 'index.template.php', $appDir . '/views/home/index.php', $appReplacements);
+		$this->messages[] = $this->tryCreatingDirectory($appDir . '/public', 'public files');
+		$this->messages[] = $this->tryCreatingDirectory($appDir . '/public/css', 'css files');
+		$this->messages[] = $this->tryCreatingDirectory($appDir . '/public/js', 'javascript files');
+		$this->messages[] = $this->tryCreatingDirectory($appDir . '/public/img', 'image files');
+		$this->messages[] = $this->tryCreatingDirectory($appDir . '/public/swf', 'flash files');
 	}
 	
 	private function tryCreatingDirectory($path, $name) {
