@@ -30,6 +30,13 @@ abstract class Application {
 	public $viewsDir = '';
 	
 	/**
+	 * OVERRIDE THIS with the path to your app's public files relative to url.base, apps/appname/public/ by default
+	 *
+	 * @var string
+	 */
+	public $publicPath = '';
+
+	/**
 	 * OVERRIDE THIS with the routing prefix to your application
 	 *
 	 * @var unknown_type
@@ -78,5 +85,15 @@ abstract class Application {
 		return $this->viewsDir;
 	}
 	
+	function getPublicPath() {
+		return $this->publicPath;
+	}
+	
+	function urlTo($methodName) {
+		list($controllerName, $methodName) = explode('::', $methodName, 2);
+		Library::import($this->controllersPrefix.$controllerName);
+		$controller = new $controllerName($this);
+		return $controller->urlTo($methodName);
+	}
 }
 ?>
