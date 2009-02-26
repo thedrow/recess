@@ -113,6 +113,7 @@ class DefaultPolicy implements IPolicy {
 		Library::import($controllerClass);
 		$controllerClass = Library::getClassName($controllerClass);
 		$controller = new $controllerClass($routeResult->route->app);
+		$request->meta->controller = $controller;
 		return $controller;
 	}
 
