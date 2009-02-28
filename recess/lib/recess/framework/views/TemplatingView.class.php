@@ -1,6 +1,8 @@
 <?php
 Library::import('recess.framework.views.NativeView');
-Library::import('shared.view');
+Library::import('recess.framework.helpers.view');
+Library::import('recess.framework.helpers.url');
+Library::import('recess.framework.helpers.html');
 
 class TemplatingView extends NativeView { 	
 	/**
