@@ -66,6 +66,10 @@ class view extends AbstractHelper {
 	
 	public static function set($name,$val) {
 		if(!($template = &self::$templates[0])) throw new Exception('self::set called but no template active');
+		if(is_array($name)){
+			foreach($name as $key=>$value) self::set($key,$value);
+			return;
+		}
 		$template['blocks'][$name] = $val;
 		return $val;
 	}
