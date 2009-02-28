@@ -1,4 +1,5 @@
 Options FollowSymLinks
+php_flag display_errors on
 RewriteEngine On
 RewriteBase /
 RewriteRule ^([^.]+)$ $1.html [QSA]
