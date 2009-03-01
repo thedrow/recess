@@ -42,7 +42,7 @@ class Form {
 		$this->action = $action;
 	}
 	
-	function begin($attrs) {
+	function begin($attrs=null) {
 		if($this->method == Methods::DELETE || $this->method == Methods::PUT) {
 			echo '<form method="POST" action="' . $this->action . '"'.html::attributes($attrs).'>';
 			echo '<input type="hidden" name="_METHOD" value="' . $this->method . '" />';
