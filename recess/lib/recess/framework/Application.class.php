@@ -90,10 +90,12 @@ abstract class Application {
 	}
 	
 	function urlTo($methodName) {
+		$args = func_get_args();
 		list($controllerName, $methodName) = explode('::', $methodName, 2);
+		$args[0] = $methodName;
 		Library::import($this->controllersPrefix.$controllerName);
 		$controller = new $controllerName($this);
-		return $controller->urlTo($methodName);
+		return call_user_func_array(array($controller,'urlTo'),$args);
 	}
 }
 ?>
