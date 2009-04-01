@@ -9,7 +9,7 @@ Library::import('recess.lang.Object');
  * @author Kris Jordan <krisjordan@gmail.com>
  * @abstract 
  */
-abstract class AbstractView extends RecessObject {
+abstract class AbstractView extends Object {
 	protected $response;
 	
 	/**
