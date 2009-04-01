@@ -1,5 +1,6 @@
 <?php
 Library::import('recess.framework.forms.Form');
+Library::import('recess.framework.forms.ModelSelectInput');
 
 class ModelForm extends Form {
 	protected $model = null;
@@ -20,8 +21,16 @@ class ModelForm extends Form {
 		$this->name = $name;
 		$this->model = $model;
 		
-		if($model != null) {			
+		if($model != null) {	
 			$properties = Model::getProperties($model);
+			$relationships = Model::getRelationships($model);
+			$belongsToKeys = array();
+			foreach($relationships as $rel) {
+				if('BelongsToRelationship' == get_class($rel)) {
+					$belongsToKeys[$rel->foreignKey] = $rel->foreignClass;
+				}
+			}
+			
 			$this->inputs = array();
 									
 			foreach($properties as $property) {
@@ -29,7 +38,7 @@ class ModelForm extends Form {
 				
 				$inputName = $this->name . '[' . $propertyName . ']';
 				$inputValue = isset($values[$propertyName]) ? $values[$propertyName] : '';
-
+				
 				switch($property->type) {
 					case RecessType::STRING: 
 					case RecessType::FLOAT:
@@ -62,6 +71,14 @@ class ModelForm extends Form {
 						break;
 					default:
 						echo $property->type;
+				}
+				
+				if(array_key_exists($propertyName,$belongsToKeys)) {
+					$this->inputs[$propertyName] = new ModelSelectInput($inputName);
+					$this->inputs[$propertyName]->setOptions(
+						Make::a($belongsToKeys[$propertyName])->all(),
+						Model::primaryKeyName($belongsToKeys[$propertyName])
+					);
 				}
 				
 				if($property->isPrimaryKey) {

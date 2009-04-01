@@ -8,6 +8,8 @@ class {{programmaticName}}Application extends Application {
 		
 		$this->viewsDir = $_ENV['dir.apps'] . '{{camelProgrammaticName}}/views/';	
 		
+		$this->publicPath = 'apps/{{camelProgrammaticName}}/public/';
+		
 		$this->modelsPrefix = '{{camelProgrammaticName}}.models.';
 		
 		$this->controllersPrefix = '{{camelProgrammaticName}}.controllers.';

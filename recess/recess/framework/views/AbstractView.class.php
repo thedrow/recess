@@ -9,7 +9,9 @@ Library::import('recess.lang.Object');
  * @author Kris Jordan <krisjordan@gmail.com>
  * @abstract 
  */
-abstract class AbstractView extends Object {
+abstract class AbstractView extends RecessObject {
+	protected $response;
+	
 	/**
 	 * The entry point from the Recess with a Response to be rendered.
 	 * Delegates the two steps in rendering a view: 1) Send Headers, 2) Render Body
@@ -21,9 +23,43 @@ abstract class AbstractView extends Object {
 			$this->sendHeadersFor($response);
 		
 		if(ResponseCodes::canHaveBody($response->code) && !$response instanceof ForwardingResponse) {
+			$this->response = $response;
 			$this->render($response);
 		}
 		
+	}
+	
+	/**
+	 * Get the Request this view is being used in response to
+	 * 
+	 * @return Request 
+	 */
+	public function getRequest() {
+		return $this->response->request;
+	}
+	
+	/**
+	 * Get the response
+	 * @return Response
+	 */
+	public function getResponse() {
+		return $this->response;
+	}
+	
+	/**
+	 * Import and (as required) initialize helpers for use in the view.
+	 * Helper is the path and name of a class as used by Library::import().
+	 * For multiple helpers, pass a single array of helpers or use multiple arguments.
+	 * 
+	 * @param $helper
+	 */
+	public function loadHelper($helper) {
+		$helpers = is_array($helper) ? $helper : func_get_args();
+		foreach($helpers as $helper) {
+			Library::import($helper);
+			$init = array(Library::getClassName($helper),'init');
+			if(is_callable($init)) call_user_func(array(Library::getClassName($helper),'init'),$this); 
+		}
 	}
 	
 	/**

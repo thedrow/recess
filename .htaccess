@@ -1,5 +1,8 @@
 Options FollowSymLinks
+php_flag display_errors on
+php_flag magic_quotes_gpc off
 RewriteEngine On
+RewriteBase /
 RewriteRule ^([^.]+)$ $1.html [QSA]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^(.*)$ bootstrap.php [QSA,L]

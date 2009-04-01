@@ -7,6 +7,7 @@ Library::import('recess.framework.forms.LabelInput');
 Library::import('recess.framework.forms.DateLabelInput');
 Library::import('recess.framework.forms.BooleanInput');
 Library::import('recess.framework.forms.HiddenInput');
+Library::import('recess.framework.helpers.html');
 
 class Form {
 	protected $name;
@@ -41,12 +42,12 @@ class Form {
 		$this->action = $action;
 	}
 	
-	function begin() {
+	function begin($attrs=null) {
 		if($this->method == Methods::DELETE || $this->method == Methods::PUT) {
-			echo '<form method="POST" action="' . $this->action . '">';
+			echo '<form method="POST" action="' . $this->action . '"'.html::attributes($attrs).'>';
 			echo '<input type="hidden" name="_METHOD" value="' . $this->method . '" />';
 		} else {
-			echo '<form method="' . $this->method . '" action="' . $this->action . '">';
+			echo '<form method="' . $this->method . '" action="' . $this->action . '"'.html::attributes($attrs).'>';
 		}
 	}
 	

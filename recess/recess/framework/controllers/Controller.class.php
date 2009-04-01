@@ -89,15 +89,13 @@ abstract class Controller extends AbstractController {
 	 */
 	public function urlTo($methodName) {
 		$args = func_get_args();
-		array_shift($args);
 		
 		// First check to see if this is a urlTo on another Controller Class
 		if(strpos($methodName,'::') !== false) {
-		    list($controllerName, $methodName) = explode('::', $methodName, 2);
-		    $controller = new $controllerName($this->application);
-		    return $controller->urlTo($methodName);
+		    return call_user_func_array(array($this->application,'urlTo'),$args);
 		}
-		
+
+		array_shift($args);		
 		$descriptor = Controller::getClassDescriptor($this);
 		if(isset($descriptor->methodUrls[$methodName])) {
 			$url = $descriptor->methodUrls[$methodName];
